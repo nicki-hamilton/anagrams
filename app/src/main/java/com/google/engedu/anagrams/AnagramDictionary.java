@@ -70,7 +70,7 @@ public class AnagramDictionary {
     }
     // Function called (sortLetters) that takes a String and returns another
     // string with the same letters in alphabetical order.
-    public String sortLetters(String inputword)
+    public String sortLetters (String inputword)
     {
         char letters[] = inputword.toCharArray();
         Arrays.sort(letters);
@@ -98,6 +98,21 @@ public class AnagramDictionary {
         // Create signature for the input word
         String targetWordSignature = sortLetters(targetWord.toLowerCase());
 
+        char [] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        for(char i: alphabet)
+        {
+            String w  = targetWord+i;
+            String s = sortLetters(w);
+
+            // use hashmap to get the anagrams of targetWord
+            if(lettersToWord.containsKey(s))
+            {
+                result.addAll(lettersToWord.get(s));
+            }
+
+        }
+
+        /* OLD WAY OF DOING IT
         //For each word in the dictionary
         for(String word: wordList)
         {
@@ -109,7 +124,7 @@ public class AnagramDictionary {
             {
                 result.add(word);
             }
-        }
+        }*/
         return result;
     }
 
@@ -120,7 +135,40 @@ public class AnagramDictionary {
         return result;
     }
 
-    public String pickGoodStarterWord() {
-        return "stop";
+    public String pickGoodStarterWord()
+    {
+        //First assign (newRandomWord) as a new string to hold our random word.
+        String newRandomWord = new String();
+
+        // create a variable call (numofAnagrams) and assign as 0.
+        int numofAnagrams = 0;
+
+        // Since (numofAnagrams)0 is less than (MIN_NUM_ANAGRAMS)5
+        // will move on the next two lines
+        while(numofAnagrams < MIN_NUM_ANAGRAMS)
+        {
+            //next two lines picks a random number.
+            Random r = new Random();
+            int randomindex = r.nextInt(wordList.size());
+
+            // next two takes the random number and pulls the word from the array.
+            // then sorts the word
+            newRandomWord = wordList.get(randomindex);
+            String u = sortLetters(newRandomWord);
+
+            /*
+             by typing lettersToWord.get(u).size() instead of
+             assign a variable to lettersToWord.get(u) and .size() separately
+            */
+            numofAnagrams = lettersToWord.get(u).size();
+
+            // Finally it will get the number of anagrams from the HashMap (lettersToWord)
+            // and assign into numofAagrams.
+
+        }
+
+        // The while Loop will keep running until the conditional statement is not true.
+        // return the new random word (newRandomWord) from the word.txt file.
+        return newRandomWord;
     }
 }
